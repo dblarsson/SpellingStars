@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌟 Spelling Stars! 🌟</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #6ec6f5;
+    --sun: #FFD93D;
+    --coral: #FF6B6B;
+    --mint: #6BCB77;
+    --purple: #C77DFF;
+    --peach: #FFB347;
+    --white: #FFFEF7;
+    --dark: #2D2D2D;
+    --cloud: rgba(255,255,255,0.85);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(160deg, #a8edea 0%, #fed6e3 50%, #c9f5c7 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .bg-star {
+    position: fixed;
+    font-size: 1.5rem;
+    pointer-events: none;
+    animation: floatStar linear infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes floatStar {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2.5rem, 7vw, 4rem);
+    color: var(--dark);
+    text-shadow: 4px 4px 0 var(--sun), 6px 6px 0 rgba(0,0,0,0.1);
+    letter-spacing: 1px;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .stars-bar {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+    background: var(--cloud);
+    border-radius: 50px;
+    padding: 8px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 16px;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .star-icon { font-size: 1.4rem; }
+  #starCount { color: var(--coral); font-size: 1.3rem; }
+
+  .card {
+    background: var(--cloud);
+    border-radius: 30px;
+    padding: 30px 28px;
+    max-width: 580px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+    position: relative;
+    animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  @keyframes slideUp {
+    0% { transform: translateY(40px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Week Selector */
+  #weekSelector {
+    text-align: center;
+  }
+
+  #weekSelector h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: var(--dark);
+  }
+
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .week-btn {
+    background: linear-gradient(135deg, var(--sun), var(--peach));
+    border: none;
+    border-radius: 18px;
+    padding: 14px 10px;
+    cursor: pointer;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: var(--dark);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .week-btn:nth-child(2n) { background: linear-gradient(135deg, #9ef0f0, var(--sky)); }
+  .week-btn:nth-child(3n) { background: linear-gradient(135deg, #c4f1c4, var(--mint)); }
+  .week-btn:nth-child(4n) { background: linear-gradient(135deg, #e8c6ff, var(--purple)); }
+
+  .week-btn:hover { transform: scale(1.05) rotate(-1deg); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+  .week-btn:active { transform: scale(0.97); }
+  .week-btn .week-num { font-size: 0.85rem; opacity: 0.7; display: block; }
+  .week-btn .week-theme { font-size: 1.15rem; display: block; margin-top: 4px; }
+
+  /* Mode Selector */
+  #modeSelector { text-align: center; }
+  #modeSelector h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; margin-bottom: 6px; }
+  .week-label { font-size: 1.1rem; color: #666; margin-bottom: 20px; font-weight: 600; }
+
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+
+  .mode-btn {
+    border: none;
+    border-radius: 22px;
+    padding: 20px 16px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--dark);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mode-btn .mode-icon { font-size: 2.4rem; }
+  .mode-btn:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+  .mode-btn:active { transform: translateY(0); }
+  .btn-learn { background: linear-gradient(135deg, #fff0a0, var(--sun)); }
+  .btn-match { background: linear-gradient(135deg, #c4f1c4, #4CAF50); color: white; }
+  .btn-spell { background: linear-gradient(135deg, #b3e0ff, var(--sky)); }
+  .btn-test  { background: linear-gradient(135deg, #ffcbf2, var(--coral)); color: white; }
+
+  .back-btn {
+    background: none;
+    border: 2px solid #ccc;
+    border-radius: 50px;
+    padding: 7px 18px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: #666;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+  }
+  .back-btn:hover { background: #f0f0f0; border-color: #aaa; }
+
+  .word-card-big {
+    text-align: center;
+    padding: 10px 0;
+  }
+  .word-display {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(3rem, 12vw, 5.5rem);
+    color: var(--dark);
+    letter-spacing: 8px;
+    margin: 16px 0;
+    text-shadow: 3px 3px 0 var(--sun);
+    animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes bounceIn {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .word-letters {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+    margin: 10px 0 20px;
+    width: 100%;
+  }
+  .letter-box {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 64px;
+    background: linear-gradient(135deg, #fff, #f0f8ff);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: var(--dark);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1), 0 2px 0 rgba(0,0,0,0.08);
+    animation: letterPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    border: 2px solid rgba(0,0,0,0.06);
+  }
+
+  .letter-box:nth-child(odd) { background: linear-gradient(135deg, #fff9e6, #fff); }
+
+  .letter-boxes-6  { gap: 6px; }
+  .letter-boxes-6  .letter-box { width: 44px; height: 54px; font-size: 1.7rem; border-radius: 12px; }
+  .letter-boxes-7  { gap: 5px; }
+  .letter-boxes-7  .letter-box { width: 38px; height: 48px; font-size: 1.5rem; border-radius: 11px; }
+  .letter-boxes-8  { gap: 4px; }
+  .letter-boxes-8  .letter-box { width: 34px; height: 44px; font-size: 1.3rem; border-radius: 10px; }
+  .letter-boxes-9  { gap: 4px; }
+  .letter-boxes-9  .letter-box { width: 30px; height: 40px; font-size: 1.15rem; border-radius: 9px; }
+  .letter-boxes-10 { gap: 3px; }
+  .letter-boxes-10 .letter-box { width: 27px; height: 36px; font-size: 1rem; border-radius: 8px; }
+
+  @keyframes letterPop {
+    0% { transform: translateY(20px) scale(0.5); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .nav-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  .nav-btn {
+    background: linear-gradient(135deg, var(--purple), #9b4dca);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 28px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(155,77,202,0.3);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .nav-btn:hover { transform: scale(1.05); }
+  .nav-btn:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
+  .nav-btn.speak-btn { background: linear-gradient(135deg, var(--mint), #2ea84e); box-shadow: 0 4px 12px rgba(46,168,78,0.3); }
+
+  .progress-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #ddd;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .dot.active { background: var(--coral); transform: scale(1.3); }
+  .dot.done { background: var(--mint); }
+
+  .match-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .match-card {
+    aspect-ratio: 1;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #e8f4fd, #c5e8ff);
+    border: 3px solid transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--dark);
+    text-align: center;
+    padding: 6px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    backface-visibility: hidden;
+  }
+
+  .match-card:hover { transform: scale(1.06); box-shadow: 0 6px 18px rgba(0,0,0,0.15); }
+
+  .match-card.word-type { background: linear-gradient(135deg, #fff0b3, #ffe066); }
+  .match-card.emoji-type { background: linear-gradient(135deg, #d4f0ff, #a8d8ff); font-size: clamp(1.5rem, 5vw, 2.2rem); }
+
+  .match-card.selected { border-color: var(--purple); transform: scale(1.08); box-shadow: 0 0 0 3px rgba(199,125,255,0.3); }
+  .match-card.correct { background: linear-gradient(135deg, #c4f1c4, #6BCB77) !important; border-color: var(--mint); animation: correctPop 0.5s ease; }
+  .match-card.wrong { background: linear-gradient(135deg, #ffd0d0, var(--coral)) !important; animation: wrongShake 0.4s ease; }
+
+  @keyframes correctPop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+  @keyframes wrongShake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+
+  .spell-container { text-align: center; }
+  .clue-emoji { font-size: 5rem; margin: 10px 0; animation: floatEmoji 2s ease-in-out infinite; display: block; }
+  @keyframes floatEmoji { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+  .clue-text { font-size: 1rem; color: #666; font-weight: 600; margin-bottom: 10px; }
+
+  .letter-inputs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin: 16px 0;
+    width: 100%;
+  }
+
+  .letter-input {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 64px;
+    border: 3px solid #ddd;
+    border-radius: 14px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    text-align: center;
+    color: var(--dark);
+    background: white;
+    outline: none;
+    transition: border-color 0.2s, transform 0.2s;
+    text-transform: lowercase;
+  }
+  .letter-inputs-6  { gap: 6px; }
+  .letter-inputs-6  .letter-input { width: 44px; height: 54px; font-size: 1.7rem; border-radius: 12px; }
+  .letter-inputs-7  { gap: 5px; }
+  .letter-inputs-7  .letter-input { width: 38px; height: 48px; font-size: 1.5rem; border-radius: 11px; }
+  .letter-inputs-8  { gap: 4px; }
+  .letter-inputs-8  .letter-input { width: 34px; height: 44px; font-size: 1.3rem; border-radius: 10px; }
+  .letter-inputs-9  { gap: 4px; }
+  .letter-inputs-9  .letter-input { width: 30px; height: 40px; font-size: 1.15rem; border-radius: 9px; }
+  .letter-inputs-10 { gap: 3px; }
+  .letter-inputs-10 .letter-input { width: 27px; height: 36px; font-size: 1rem; border-radius: 8px; }
+  .letter-input:focus { border-color: var(--purple); transform: scale(1.08); box-shadow: 0 0 0 3px rgba(199,125,255,0.2); }
+  .letter-input.correct-letter { border-color: var(--mint); background: #e8fff0; }
+  .letter-input.wrong-letter { border-color: var(--coral); background: #fff0f0; }
+
+  .hint-btn {
+    background: none;
+    border: 2px dashed var(--peach);
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: #d4830a;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+    margin: 8px 4px;
+  }
+  .hint-btn:hover { background: rgba(255,179,71,0.1); }
+
+  .test-container { text-align: center; }
+  #testProgress { font-size: 0.95rem; color: #888; font-weight: 600; margin-bottom: 10px; }
+
+  .test-word-area {
+    background: linear-gradient(135deg, #f0f8ff, #e8f4fd);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 16px 0;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: #555;
+    position: relative;
+  }
+
+  .test-input {
+    width: 100%;
+    border: 3px solid #ddd;
+    border-radius: 16px;
+    padding: 14px 18px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    text-align: center;
+    color: var(--dark);
+    outline: none;
+    background: white;
+    letter-spacing: 4px;
+    transition: border-color 0.2s;
+    margin: 12px 0;
+  }
+  .test-input:focus { border-color: var(--sky); }
+
+  .submit-btn {
+    background: linear-gradient(135deg, var(--coral), #e03d3d);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 40px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(224,61,61,0.3);
+    transition: transform 0.15s, box-shadow 0.15s;
+    margin-top: 4px;
+  }
+  .submit-btn:hover { transform: scale(1.05); }
+  .submit-btn.correct-btn { background: linear-gradient(135deg, var(--mint), #2ea84e); box-shadow: 0 5px 15px rgba(46,168,78,0.3); }
+
+  /* Results */
+  .result-msg {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    margin: 12px 0;
+    animation: popIn 0.4s ease;
+  }
+  .correct-msg { color: var(--mint); }
+  .wrong-msg { color: var(--coral); }
+
+  /* Score screen */
+  .score-screen { text-align: center; }
+  .score-screen h2 { font-family: 'Fredoka One', cursive; font-size: 2.2rem; margin-bottom: 10px; }
+  .score-big { font-family: 'Fredoka One', cursive; font-size: 4rem; color: var(--coral); margin: 16px 0; }
+  .star-reward { font-size: 3rem; animation: spinBounce 1s ease; }
+  @keyframes spinBounce { 0%{transform:rotate(-180deg) scale(0)} 100%{transform:rotate(0) scale(1)} }
+
+  .retry-btn {
+    background: linear-gradient(135deg, var(--sun), var(--peach));
+    border: none;
+    border-radius: 50px;
+    padding: 12px 32px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transition: transform 0.15s;
+    margin: 8px;
+  }
+  .retry-btn:hover { transform: scale(1.05); }
+
+  /* Confetti */
+  .confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 14px;
+    border-radius: 3px;
+    pointer-events: none;
+    animation: confettiFall 2.5s ease forwards;
+    z-index: 999;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-80px);
+    background: var(--dark);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  section { display: none; }
+  section.active { display: block; }
+
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .week-btn.week-btn-current {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4) !important;
+    border: 3px solid var(--coral);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 4px 12px rgba(255,107,107,0.3); }
+    50% { box-shadow: 0 4px 22px rgba(255,107,107,0.65); }
+  }
+  @media (max-width: 420px) {
+    .match-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div id="bgStars"></div>
+
+<div class="header">
+  <h1>🌟 Spelling Stars! 🌟</h1>
+  <p class="subtitle">Learn words, earn stars, be awesome!</p>
+</div>
+
+<div class="stars-bar">
+  <span class="star-icon">⭐</span>
+  Stars earned: <span id="starCount">0</span>
+</div>
+
+<div class="card">
+  <section id="weekSelector" class="active">
+    <h2>Pick Your Week! 📅</h2>
+    <div class="week-grid" id="weekGrid"></div>
+  </section>
+
+  <section id="modeSelector">
+    <h2>What do you want to do?</h2>
+    <p class="week-label" id="currentWeekLabel"></p>
+    <div class="mode-grid">
+      <button class="mode-btn btn-learn" onclick="startLearn()">
+        <span class="mode-icon">📖</span>
+        Learn Words
+      </button>
+      <button class="mode-btn btn-match" onclick="startMatch()">
+        <span class="mode-icon">🎯</span>
+        Word Match
+      </button>
+      <button class="mode-btn btn-spell" onclick="startSpell()">
+        <span class="mode-icon">✏️</span>
+        Spell It!
+      </button>
+      <button class="mode-btn btn-test" onclick="startTest()">
+        <span class="mode-icon">🏆</span>
+        Test Time
+      </button>
+    </div>
+    <button class="back-btn" onclick="showSection('weekSelector')">← Back</button>
+  </section>
+  <section id="learnMode">
+    <div class="section-title">📖 Learn the Words!</div>
+    <div class="progress-dots" id="learnDots"></div>
+    <div class="word-card-big">
+      <div class="word-display" id="learnWord"></div>
+      <div class="word-letters" id="learnLetters"></div>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-btn" id="prevBtn" onclick="learnNav(-1)">◀ Prev</button>
+      <button class="nav-btn speak-btn" onclick="speakWord()">🔊 Hear It</button>
+      <button class="nav-btn" id="nextBtn" onclick="learnNav(1)">Next ▶</button>
+    </div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="back-btn" onclick="showSection('modeSelector')">← Back</button>
+    </div>
+  </section>
+  <section id="matchMode">
+    <div class="section-title">🎯 Match the Word to the Picture!</div>
+    <p style="text-align:center;color:#666;font-size:0.9rem;margin-bottom:12px">Find pairs that go together!</p>
+    <div class="match-grid" id="matchGrid"></div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="back-btn" onclick="showSection('modeSelector')">← Back</button>
+    </div>
+  </section>
+  <section id="spellMode">
+    <div class="section-title">✏️ Spell the Word!</div>
+    <div class="spell-container">
+      <div class="progress-dots" id="spellDots"></div>
+      <span class="clue-emoji" id="spellEmoji"></span>
+      <p class="clue-text" id="spellClue"></p>
+      <div class="letter-inputs" id="letterInputs"></div>
+      <div>
+        <button class="hint-btn" onclick="giveHint()">💡 Hint</button>
+        <button class="hint-btn" onclick="speakCurrentSpellWord()">🔊 Hear Word</button>
+      </div>
+      <div id="spellFeedback" style="height:28px"></div>
+      <div class="nav-buttons" style="margin-top:8px">
+        <button class="nav-btn" onclick="checkSpell()">Check! ✓</button>
+        <button class="nav-btn" id="spellNextBtn" style="display:none" onclick="nextSpellWord()">Next ▶</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:12px">
+      <button class="back-btn" onclick="showSection('modeSelector')">← Back</button>
+    </div>
+  </section>
+
+  <section id="testMode">
+    <div class="section-title">🏆 Spelling Test!</div>
+    <div class="test-container">
+      <p id="testProgress"></p>
+      <div class="test-word-area">
+        🔊 Listen and spell the word!<br>
+        <small style="color:#aaa;font-size:0.8rem">(word will be spoken)</small>
+      </div>
+      <input type="text" class="test-input" id="testInput" placeholder="type here..." autocomplete="off" autocorrect="off" spellcheck="false">
+      <div id="testFeedback" style="height:32px;margin:4px 0"></div>
+      <button class="submit-btn" id="testSubmitBtn" onclick="checkTest()">Check It! 🚀</button>
+    </div>
+    <div style="text-align:center;margin-top:12px">
+      <button class="back-btn" onclick="showSection('modeSelector')">← Back</button>
+    </div>
+  </section>
+
+  <section id="scoreScreen">
+    <div class="score-screen">
+      <div class="star-reward" id="scoreEmoji">⭐</div>
+      <h2 id="scoreTitle">Amazing!</h2>
+      <div class="score-big" id="scoreBig"></div>
+      <p id="scoreMsg"></p>
+      <div style="margin-top:20px">
+        <button class="retry-btn" onclick="showSection('modeSelector')">Try Again!</button>
+        <button class="retry-btn" onclick="showSection('weekSelector')">New Week</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ——— WORD DATA ———
+// Each word entry: { word: "...", emoji: "..." }
+// Emojis live alongside words — no separate lookup table needed.
+const WORD_DATA = {
+  weeks: [
+    { week: 1, theme: "Week of 1/5 ⭐", words: [
+      { word: "jump", emoji: "🦘" }, { word: "skip", emoji: "🏃" },
+      { word: "swim", emoji: "🏊" }, { word: "draw", emoji: "🎨" },
+      { word: "sing", emoji: "🎵" }, { word: "clap", emoji: "👏" },
+      { word: "spin", emoji: "💫" }, { word: "walk", emoji: "👟" }    ]},
+    { week: 2, theme: "Week of 1/12 🐾", words: [
+      { word: "cat",  emoji: "🐱" }, { word: "dog",  emoji: "🐶" },
+      { word: "fish", emoji: "🐟" }, { word: "bird", emoji: "🐦" },
+      { word: "frog", emoji: "🐸" }, { word: "duck", emoji: "🦆" },
+      { word: "bear", emoji: "🐻" }, { word: "lion", emoji: "🦁" }
+    ]},
+    { week: 3, theme: "Week of 1/19 🌈", words: [
+      { word: "red",  emoji: "🍎" }, { word: "blue", emoji: "🔵" },
+      { word: "pink", emoji: "🌸" }, { word: "gold", emoji: "⭐" },
+      { word: "gray", emoji: "🌫️" }, { word: "lime", emoji: "🍋" },
+      { word: "teal", emoji: "🌊" }, { word: "rose", emoji: "🌹" }
+    ]},
+    { week: 4, theme: "Week of 1/26 🍎", words: [
+      { word: "cake", emoji: "🎂" }, { word: "milk", emoji: "🥛" },
+      { word: "rice", emoji: "🍚" }, { word: "corn", emoji: "🌽" },
+      { word: "plum", emoji: "🍇" }, { word: "bean", emoji: "🫘" },
+      { word: "pear", emoji: "🍐" }, { word: "soup", emoji: "🍜" }
+    ]},
+    { week: 5, theme: "Week of 2/2 🌿", words: [
+      { word: "tree", emoji: "🌲" }, { word: "leaf", emoji: "🍃" },
+      { word: "rain", emoji: "🌧️" }, { word: "snow", emoji: "❄️" },
+      { word: "wind", emoji: "💨" }, { word: "rock", emoji: "🪨" },
+      { word: "dirt", emoji: "🌱" }, { word: "pond", emoji: "🐸" }
+    ]},
+    { week: 6, theme: "Week of 2/9 🏠", words: [
+      { word: "door",  emoji: "🚪" }, { word: "roof",  emoji: "🏠" },
+      { word: "room",  emoji: "🛏️" }, { word: "desk",  emoji: "🖥️" },
+      { word: "lamp",  emoji: "💡" }, { word: "couch", emoji: "🛋️" },
+      { word: "bath",  emoji: "🛁" }, { word: "yard",  emoji: "🌿" }
+    ]},
+    { week: 7, theme: "Week of 2/23 🏃", current: true, words: [
+      { word: "trucker", emoji: "🚛" }, { word: "kitten",  emoji: "🐱" },
+      { word: "parked",  emoji: "🅿️" }, { word: "duck",    emoji: "🦆" },
+      { word: "add",     emoji: "➕"  }, { word: "planned", emoji: "📋" },
+      { word: "offer",   emoji: "🎁"  }, { word: "was",     emoji: "⏳" }    ]}
+  ]
+};
+
+
+let currentWeek = null;
+let currentWords = [];
+let totalStars = parseInt(localStorage.getItem('spellingStars') || '0');
+
+// Learn mode
+let learnIndex = 0;
+
+// Match mode
+let matchSelected = null;
+let matchPairs = {};
+let matchSolved = 0;
+
+// Spell mode
+let spellIndex = 0;
+let spellWords = [];
+let hintCount = 0;
+
+// Test mode
+let testIndex = 0;
+let testWords = [];
+let testScore = 0;
+let testAnswered = false;
+
+function init() {
+  addStars();
+  buildWeekGrid();
+  updateStarDisplay();
+}
+
+function addStars() {
+  const emojis = ['⭐','🌟','✨','💫','🎈','🦋','🌈'];
+  for (let i = 0; i < 12; i++) {
+    const star = document.createElement('div');
+    star.className = 'bg-star';
+    star.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    star.style.left = Math.random() * 100 + 'vw';
+    star.style.animationDuration = (8 + Math.random() * 12) + 's';
+    star.style.animationDelay = (Math.random() * 15) + 's';
+    star.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+    document.getElementById('bgStars').appendChild(star);
+  }
+}
+
+function buildWeekGrid() {
+  const grid = document.getElementById('weekGrid');
+  WORD_DATA.weeks.forEach(w => {
+    const btn = document.createElement('button');
+    btn.className = 'week-btn' + (w.current ? ' week-btn-current' : '');
+    btn.innerHTML = `<span class="week-num">${w.current ? '📅 This Week!' : 'Week ' + w.week}</span><span class="week-theme">${w.theme}</span>`;
+    btn.onclick = () => selectWeek(w);
+    grid.appendChild(btn);
+  });
+}
+
+function selectWeek(weekData) {
+  currentWeek = weekData;
+  currentWords = [...weekData.words];
+  document.getElementById('currentWeekLabel').textContent = `Week ${weekData.week}: ${weekData.theme}`;
+  showSection('modeSelector');
+}
+
+function showSection(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function updateStarDisplay() {
+  document.getElementById('starCount').textContent = totalStars;
+}
+
+function addStar(amount) {
+  totalStars += amount;
+  localStorage.setItem('spellingStars', totalStars);
+  updateStarDisplay();
+  document.getElementById('starCount').style.transform = 'scale(1.5)';
+  setTimeout(() => document.getElementById('starCount').style.transform = '', 300);
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+function fireConfetti() {
+  const colors = ['#FFD93D','#FF6B6B','#6BCB77','#C77DFF','#6ec6f5','#FFB347'];
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDelay = Math.random() * 1 + 's';
+    c.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3500);
+  }
+}
+
+// ——— SPEECH ———
+function speak(word, rate = 0.8) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(word);
+  utt.rate = rate;
+  utt.pitch = 1.1;
+  window.speechSynthesis.speak(utt);
+}
+
+// ——— LEARN MODE ———
+function startLearn() {
+  learnIndex = 0;
+  showSection('learnMode');
+  renderLearnWord();
+}
+
+function renderLearnWord() {
+  const entry = currentWords[learnIndex];
+  const word = entry.word;
+  const el = document.getElementById('learnWord');
+  el.textContent = word;
+  el.style.animation = 'none';
+  requestAnimationFrame(() => el.style.animation = '');
+
+  // Letter boxes
+  const lettersEl = document.getElementById('learnLetters');
+  lettersEl.innerHTML = '';
+  const learnLenClass = word.length >= 6 ? ` letter-boxes-${Math.min(word.length, 10)}` : '';
+  lettersEl.className = 'word-letters' + learnLenClass;
+  word.split('').forEach((l, i) => {
+    const box = document.createElement('div');
+    box.className = 'letter-box';
+    box.textContent = l;
+    box.style.animationDelay = (i * 0.07) + 's';
+    lettersEl.appendChild(box);
+  });
+
+  // Dots
+  const dots = document.getElementById('learnDots');
+  dots.innerHTML = '';
+  currentWords.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i < learnIndex ? ' done' : i === learnIndex ? ' active' : '');
+    dots.appendChild(d);
+  });
+
+  document.getElementById('prevBtn').disabled = learnIndex === 0;
+  document.getElementById('nextBtn').disabled = learnIndex === currentWords.length - 1;
+
+  setTimeout(() => speak(word), 300);
+}
+
+function learnNav(dir) {
+  learnIndex = Math.max(0, Math.min(currentWords.length - 1, learnIndex + dir));
+  renderLearnWord();
+}
+
+function speakWord() {
+  const wrd = currentWords[learnIndex].word;
+  speak(wrd);
+  showToast('🔊 ' + wrd.toUpperCase() + '!');
+}
+function startMatch() {
+  showSection('matchMode');
+  buildMatchGrid();
+}
+
+function buildMatchGrid() {
+  const entries = [...currentWords].sort(() => Math.random() - 0.5).slice(0, 4);
+  const grid = document.getElementById('matchGrid');
+  grid.innerHTML = '';
+  matchSelected = null;
+  matchSolved = 0;
+  matchPairs = {};
+  entries.forEach(en => matchPairs[en.word] = en.emoji || '❓');
+
+  const wordCards = entries.map(en => ({ id: 'w_' + en.word, text: en.word, type: 'word', key: en.word }));
+  const emojiCards = entries.map(en => ({ id: 'e_' + en.word, text: en.emoji || '❓', type: 'emoji', key: en.word }));
+  const all = [...wordCards, ...emojiCards].sort(() => Math.random() - 0.5);
+
+  all.forEach(card => {
+    const el = document.createElement('div');
+    el.className = `match-card ${card.type === 'word' ? 'word-type' : 'emoji-type'}`;
+    el.textContent = card.text;
+    el.dataset.key = card.key;
+    el.dataset.id = card.id;
+    el.onclick = () => onMatchClick(el);
+    grid.appendChild(el);
+  });
+}
+
+function onMatchClick(el) {
+  if (el.classList.contains('correct') || el.classList.contains('wrong')) return;
+  if (matchSelected === el) {
+    el.classList.remove('selected');
+    matchSelected = null;
+    return;
+  }
+  if (!matchSelected) {
+    el.classList.add('selected');
+    matchSelected = el;
+    return;
+  }
+  // Two cards selected
+  const first = matchSelected;
+  first.classList.remove('selected');
+  matchSelected = null;
+
+  if (first.dataset.key === el.dataset.key && first.dataset.id !== el.dataset.id) {
+    first.classList.add('correct');
+    el.classList.add('correct');
+    speak(first.dataset.key);  // key is the word string
+    matchSolved++;
+    addStar(1);
+    if (matchSolved === 4) {
+      setTimeout(() => {
+        fireConfetti();
+        showToast('🎉 All matched! Great job!');
+        setTimeout(buildMatchGrid, 2000);
+      }, 400);
+    }
+  } else {
+    first.classList.add('wrong');
+    el.classList.add('wrong');
+    setTimeout(() => {
+      first.classList.remove('wrong');
+      el.classList.remove('wrong');
+    }, 700);
+  }
+}
+function startSpell() {
+  spellWords = [...currentWords].sort(() => Math.random() - 0.5);
+  spellIndex = 0;
+  hintCount = 0;
+  showSection('spellMode');
+  renderSpellWord();
+}
+
+function renderSpellWord() {
+  const spellEntry = spellWords[spellIndex];
+  const word = spellEntry.word;
+  document.getElementById('spellEmoji').textContent = spellEntry.emoji || '❓';
+  document.getElementById('spellClue').textContent = `This word has ${word.length} letters`;
+  document.getElementById('spellFeedback').innerHTML = '';
+  document.getElementById('spellNextBtn').style.display = 'none';
+
+  const inputs = document.getElementById('letterInputs');
+  inputs.innerHTML = '';
+  const spellLenClass = word.length >= 6 ? ` letter-inputs-${Math.min(word.length, 10)}` : '';
+  inputs.className = 'letter-inputs' + spellLenClass;
+  for (let i = 0; i < word.length; i++) {
+    const inp = document.createElement('input');
+    inp.className = 'letter-input';
+    inp.maxLength = 1;
+    inp.dataset.index = i;
+    inp.setAttribute('autocomplete', 'off');
+    inp.setAttribute('autocorrect', 'off');
+    inp.setAttribute('spellcheck', 'false');
+    inp.addEventListener('input', e => {
+      const val = e.target.value.toLowerCase();
+      e.target.value = val.replace(/[^a-z]/g, '');
+      if (e.target.value && i < word.length - 1) {
+        inputs.children[i + 1].focus();
+      }
+    });
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !inp.value && i > 0) {
+        inputs.children[i - 1].focus();
+      }
+      if (e.key === 'Enter') checkSpell();
+    });
+    inputs.appendChild(inp);
+  }
+
+  // Dots
+  const dots = document.getElementById('spellDots');
+  dots.innerHTML = '';
+  spellWords.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i < spellIndex ? ' done' : i === spellIndex ? ' active' : '');
+    dots.appendChild(d);
+  });
+
+  hintCount = 0;
+  setTimeout(() => inputs.children[0].focus(), 100);
+}
+
+function checkSpell() {
+  const word = spellWords[spellIndex].word;
+  const inputs = document.getElementById('letterInputs');
+  let typed = '';
+  for (let inp of inputs.children) typed += inp.value.toLowerCase();
+
+  if (typed.length < word.length) {
+    showToast('Fill in all the letters! 📝');
+    return;
+  }
+
+  let correct = true;
+  for (let i = 0; i < word.length; i++) {
+    if (typed[i] === word[i]) {
+      inputs.children[i].classList.add('correct-letter');
+    } else {
+      inputs.children[i].classList.add('wrong-letter');
+      correct = false;
+    }
+  }
+
+  const fb = document.getElementById('spellFeedback');
+  if (correct) {
+    fb.innerHTML = '<span class="result-msg correct-msg">🌟 Yes! Perfect!</span>';
+    speak('Amazing! ' + word);
+    addStar(2);
+    fireConfetti();
+    document.getElementById('spellNextBtn').style.display = 'inline-block';
+  } else {
+    fb.innerHTML = `<span class="result-msg wrong-msg">Almost! Try again 💪</span>`;
+    setTimeout(() => {
+      for (let inp of inputs.children) { inp.classList.remove('wrong-letter', 'correct-letter'); inp.value = ''; }
+      inputs.children[0].focus();
+      fb.innerHTML = '';
+    }, 1200);
+  }
+}
+
+function nextSpellWord() {
+  spellIndex++;
+  if (spellIndex >= spellWords.length) {
+    showScore('spell', spellWords.length * 2, spellWords.length * 2);
+    return;
+  }
+  renderSpellWord();
+}
+
+function giveHint() {
+  const word = spellWords[spellIndex].word;
+  const inputs = document.getElementById('letterInputs');
+  if (hintCount < word.length) {
+    inputs.children[hintCount].value = word[hintCount];
+    inputs.children[hintCount].classList.add('correct-letter');
+    hintCount++;
+    if (hintCount < word.length) inputs.children[hintCount].focus();
+  }
+}
+
+function speakCurrentSpellWord() {
+  speak(spellWords[spellIndex].word);
+}
+
+// ——— TEST MODE ———
+function startTest() {
+  testWords = [...currentWords].sort(() => Math.random() - 0.5);
+  testIndex = 0;
+  testScore = 0;
+  testAnswered = false;
+  showSection('testMode');
+  renderTestWord();
+}
+
+function renderTestWord() {
+  testAnswered = false;
+  document.getElementById('testProgress').textContent = `Word ${testIndex + 1} of ${testWords.length}`;
+  document.getElementById('testFeedback').innerHTML = '';
+  const inp = document.getElementById('testInput');
+  inp.value = '';
+  inp.style.borderColor = '#ddd';
+  inp.disabled = false;
+  inp.focus();
+  const btn = document.getElementById('testSubmitBtn');
+  btn.textContent = 'Check It! 🚀';
+  btn.className = 'submit-btn';
+  btn.onclick = checkTest;
+
+  setTimeout(() => speak(testWords[testIndex].word, 0.7), 400);
+}
+
+function checkTest() {
+  if (testAnswered) return;
+  const word = testWords[testIndex].word;
+  const inp = document.getElementById('testInput');
+  const typed = inp.value.trim().toLowerCase();
+
+  if (!typed) { showToast('Type your answer first! ✏️'); return; }
+
+  testAnswered = true;
+  inp.disabled = true;
+
+  const fb = document.getElementById('testFeedback');
+  const btn = document.getElementById('testSubmitBtn');
+
+  if (typed === word) {
+    fb.innerHTML = '<span class="result-msg correct-msg">🎉 Correct!</span>';
+    inp.style.borderColor = '#6BCB77';
+    testScore++;
+    addStar(3);
+    fireConfetti();
+  } else {
+    fb.innerHTML = `<span class="result-msg wrong-msg">The word was: <strong>${word}</strong></span>`;
+    inp.style.borderColor = '#FF6B6B';
+    speak('The word was: ' + word);
+  }
+
+  if (testIndex < testWords.length - 1) {
+    btn.textContent = 'Next Word ▶';
+    btn.className = 'submit-btn correct-btn';
+    btn.onclick = () => { testIndex++; renderTestWord(); };
+  } else {
+    btn.textContent = 'See Results! 🏆';
+    btn.className = 'submit-btn correct-btn';
+    btn.onclick = () => showScore('test', testScore, testWords.length);
+  }
+}
+
+document.getElementById('testInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    if (!testAnswered) checkTest();
+    else document.getElementById('testSubmitBtn').click();
+  }
+});
+function showScore(mode, score, total) {
+  showSection('scoreScreen');
+  const pct = score / (mode === 'test' ? total : total);
+  let emoji, title, msg;
+  const ratio = score / (mode === 'test' ? total * 3 : total * 2);
+
+  if (ratio >= 0.9) { emoji = '🏆'; title = 'SUPERSTAR!'; msg = 'You are absolutely amazing! 🎉'; fireConfetti(); }
+  else if (ratio >= 0.6) { emoji = '⭐'; title = 'Great Job!'; msg = 'Keep practicing, you\'re doing great! 💪'; }
+  else { emoji = '💪'; title = 'Good Try!'; msg = 'Practice makes perfect! Try again! 🌟'; }
+
+  document.getElementById('scoreEmoji').textContent = emoji;
+  document.getElementById('scoreTitle').textContent = title;
+  if (mode === 'test') {
+    document.getElementById('scoreBig').textContent = `${score} / ${total}`;
+    document.getElementById('scoreMsg').textContent = msg + ` You earned ${score * 3} stars!`;
+  } else {
+    document.getElementById('scoreBig').textContent = '✨ Done!';
+    document.getElementById('scoreMsg').textContent = msg;
+  }
+}
+init();
+</script>
+</body>
+</html>
