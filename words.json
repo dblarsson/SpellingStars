@@ -39,11 +39,21 @@ const WORD_DATA = {
       { word: "charged",  emoji: "🔋⚡" }, { word: "fringe", emoji: "⫘⫘⫘⫘⫘⫘" },
       { word: "magic",  emoji: "🪄" }, { word: "your",  emoji: "🫵" }
     ]},
-    { week: 7, theme: "Week of 2/23 🏃", current: true, words: [
+    { week: 7, theme: "Week of 2/23 🏃", words: [
       { word: "trucker", emoji: "🚛" }, { word: "kitten",  emoji: "🐱" },
       { word: "parked",  emoji: "🅿️" }, { word: "duck",    emoji: "🦆" },
       { word: "add",     emoji: "➕"  }, { word: "planned", emoji: "📋" },
       { word: "offer",   emoji: "🎁"  }, { word: "was",     emoji: "⏳" } 
-    ]}
-  ]
+    ]},
+{ week: 8, theme: "Week of 3/15 🏃", current: true, words: [
+  { word: "swimming", emoji: "🏊" }, 
+  { word: "rotten", emoji: "🍂" },
+  { word: "hidden", emoji: "🕵️" }, 
+  { word: "batter", emoji: "🥣" },
+  { word: "shredded", emoji: "🧻" },  
+  { word: "popping", emoji: "🍿" },
+  { word: "nodding", emoji: "🙂" },  
+  { word: "they", emoji: "👥" }  
+]}
+]
 };
